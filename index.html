@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> Oghomwen, My Valentine ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffe3ec, #f7f7ff);
+      font-family: Georgia, serif;
+      color: #333;
+    }
+
+    .card {
+      background: white;
+      padding: 2.8rem 2.2rem;
+      border-radius: 22px;
+      box-shadow: 0 22px 45px rgba(0,0,0,.15);
+      max-width: 560px;
+      width: calc(100% - 2rem);
+      text-align: center;
+
+      /* Fade-in setup */
+      opacity: 0;
+      transform: scale(0.96);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+      pointer-events: none;
+    }
+
+    .card.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    .heart {
+      font-size: 3rem;
+      animation: beat 1.5s infinite;
+      color: #ff4d6d;
+    }
+
+    h1 { font-size: 2.3rem; }
+
+    p {
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .9rem;
+      margin: 1.8rem 0;
+    }
+
+    .gallery img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(0,0,0,.14);
+      transition: transform .25s;
+    }
+
+    .gallery img:hover { transform: scale(1.05); }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    button {
+      padding: .8rem 1.8rem;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    .no {
+      background: #eee;
+    }
+
+    @keyframes beat {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-100vh); opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lock-screen" style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center;">
+  <div style="background:white; padding:2.5rem; border-radius:20px; text-align:center;">
+    <h2>💕 For My Oghomwen❤️💍 Only</h2>
+    <p>Enter our special date</p>
+    <input id="password" type="password" placeholder="MMDD"
+           style="padding:.7rem; width:100%; border-radius:12px;">
+    <br><br>
+    <button onclick="unlock()">Unlock 💕</button>
+    <p id="error" style="color:#ff4d6d; display:none;">That’s not our date 😉</p>
+  </div>
+</div>
+
+<!-- MAIN CARD -->
+<div class="card" id="main-card">
+  <div class="heart">❤️</div>
+  <h1> Oghomwen❤️💍, My bundle of happiness</h1>
+
+  <p>
+    Being your husband is the best gift I’ve ever received.
+    You turn ordinary days into something special with your love, your smile, and your care. 
+    My heart belongs to you, forever.
+  </p>
+
+  <div class="gallery">
+    <img src="Oghomwen1.jpeg" />
+    <img src="Oghomwen2.jpeg" />
+  </div>
+
+  <p><strong>Will you be my Valentine? 💕</strong></p>
+
+  <div class="buttons">
+    <button onclick="toggleMusic()" class="no">🔊 / 🔇</button>
+    <button onclick="sayYes()" class="yes">Yes 💕</button>
+    <button onclick="moveNo(this)" class="no">No 🙈</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()"
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.9); align-items:center; justify-content:center;">
+  <img id="lightbox-img" style="max-width:90%; max-height:90%; border-radius:20px;">
+</div>
+
+<!-- MUSIC -->
+<audio id="bg-music" loop>
+  <source src="Olivia_Dean_-_Man_I_Need_(mp3.pm).mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const music = document.getElementById("bg-music");
+  music.volume = 0.25;
+
+  function unlock() {
+    if (document.getElementById("password").value === "1012") {
+      document.getElementById("lock-screen").style.display = "none";
+
+      const card = document.getElementById("main-card");
+      card.classList.add("show");
+
+      music.play();
+    } else {
+      document.getElementById("error").style.display = "block";
+    }
+  }
+
+  function toggleMusic() {
+    music.muted = !music.muted;
+  }
+
+  document.querySelectorAll(".gallery img").forEach(img => {
+    img.onclick = () => {
+      document.getElementById("lightbox-img").src = img.src;
+      document.getElementById("lightbox").style.display = "flex";
+    };
+  });
+
+  function closeLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+  }
+
+  function sayYes() {
+    const emojis = ["💕","✨","🎉"];
+    for (let i = 0; i < 90; i++) {
+      const e = document.createElement("div");
+      e.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+      e.style.position = "fixed";
+      e.style.left = Math.random()*100 + "vw";
+      e.style.bottom = "-20px";
+      e.style.fontSize = "24px";
+      e.style.animation = "floatUp 4s linear";
+      document.body.appendChild(e);
+      setTimeout(() => e.remove(), 4000);
+    }
+
+    document.body.innerHTML += `
+      <div style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#ffe3ec;">
+        <div style="text-align:center;">
+          <h1> My Baby said YES! 💕</h1>
+          <p>Happy Valentine’s Day, my love.</p>
+          <p>Thank you for choosing me, Oghomwen❤️💍.</p>
+        </div>
+      </div>`;
+  }
+
+  function moveNo(btn) {
+    btn.style.position = "absolute";
+    btn.style.left = Math.random()*80 + "vw";
+    btn.style.top = Math.random()*80 + "vh";
+  }
+</script>
+
+</body>
+</html>
